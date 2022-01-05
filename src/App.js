@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
   const [text, setText] = useState("");
-  const saveToLocalStorage = () => {
-    localStorage.setItem("saved", JSON.stringify(text))
-    setText(localStorage.getItem('saved'));
+  const saveToLocalStorage = (e) => {
+    setText(e.target.value);
+    localStorage.setItem("saved", text)
     
     
   };
@@ -14,9 +14,14 @@ function App() {
   };
 
   // const getItem = (e) => {
-  //   localStorage.getItem('saved')
-  //   setText(e.target.value)
+  //   const theT = localStorage.getItem('saved')
+  //   if(theT){
+  //     return theT;
+  //   }
   // }
+  useEffect(() => {
+    setText(localStorage.getItem('saved'))
+  },[])
  
 
   return (
@@ -27,9 +32,9 @@ function App() {
             <textarea
               className="textarea is-large"
               value={text}
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => saveToLocalStorage(e)}
               placeholder="Notes..."
-            />
+            >{localStorage.getItem('saved')}</textarea>
           </div>
         </div>
         <button
